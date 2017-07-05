@@ -7,7 +7,7 @@ import pymongo
 conn = pymongo.MongoClient()
 tweets = conn.valianceAnalytics.analytics_tweets
 
-with open('data.txt', 'r') as fp:
+with open('data1.txt', 'r') as fp:
     array = fp.read().strip().split("\n")
 
 for item in array:
