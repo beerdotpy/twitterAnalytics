@@ -1,0 +1,26 @@
+<form type="get" action="." style="margin: 0">
+    <input  id="search_box" type="text" name="search_box"  placeholder="Search..." >
+    <button id="search_submit" type="submit" >Submit</button>
+</form>
+<table>
+  <thead>
+    <tr>
+    <th>Profile Picture</th>
+    <th>Username</th>
+    <th>Text</th>
+    <th>Place</th>
+    <th>Created At</th>
+    </tr>
+  </thead>
+<tbody>
+
+{% for obj in objects %}
+    <tr>
+    <td><img src="{{ obj.profile_pic }}"></img></td>
+    <td>{{ obj.username }}</td>
+    <td>{{ obj.text }}</td>  
+    <td>{{ obj.place }}</td>
+    <td>{{ obj.created_at }}</td>
+    </tr>
+    
+{% endfor %}
