@@ -7,6 +7,7 @@ import json
 import time
 import datetime 
 import random
+import collections
 
 def index(request):
     return render_to_response('index.html')
@@ -21,7 +22,6 @@ def tweet_by_list(request):
         query = request.GET.get('search_box', None)
 
     if query != None:
-        print query
         tweets = Tweets.objects.filter(text__icontains = query)
     else:
         tweets = Tweets.objects.all()
@@ -76,21 +76,21 @@ def tweet_by_location(request):
    You should allow toggle between both views using dropdown selector.    
 """
 def tweet_by_count(request):
-    date_dict = {}
+    date_dict = collections.OrderedDict()
     xdata = [] 
     ydata = []
-    tweets = Tweets.objects.all()  
+    tweets = Tweets.objects.all().order_by('timestamp_ms')[:7000] #Need to sort less results as need more memory to sort more records
     for tweet in tweets:
         if tweet.timestamp_ms != None:
-            c = datetime.datetime.fromtimestamp(float(int(tweet.timestamp_ms)/1000)).date()
+            c = datetime.datetime.fromtimestamp(float(int(tweet.timestamp_ms))).date()
             try:
                 date_dict[c] += 1
             except:
                 date_dict[c] = 1
+
     for c in date_dict:
         xdata.append(c)
         ydata.append(date_dict[c])
-    
     def start_time(x): 
         return int(time.mktime(x.timetuple()) * 1000)
     xdata = map(lambda x: start_time(x), xdata)
